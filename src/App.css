@@ -98,7 +98,7 @@ body{
 .mintb{
   display: flex;
   justify-content: space-around;
-  padding: 10%;
+  padding: 5%;
 }
 
 .woa-gif{
@@ -123,5 +123,49 @@ body{
   background-attachment: fixed;
   background-position: 40% 40%;
 }
-
+@media only screen and (max-width: 992px) {
+  .mintAmountBox{
+    width: 60px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .woa-gif{
+    display: none;
+  }
+  .navbar{
+    padding: 0;
+  }
+  .navbar-element{
+    padding: 5px;
+  }
+  .button{
+    height: 37px;
+    width: 145px;
+    position: absolute;
+    margin-top: 55%;
+    margin-left: 35%;
+  }
+  .mint-box{
+    width: auto;
+    padding: 7px;
+    margin-top: 25%;
+    margin-right: 20px;
+  }
+  .connectText{
+    position: absolute;
+    margin-top: 55%;
+    margin-left: 35%;
+  }
+  .mintbutton{
+    position: relative;
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .mintAmountBox{
+    width: 60px;
+  }
+  *{
+    padding: 0px;
+  }
+}
 

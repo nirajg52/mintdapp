@@ -89,7 +89,7 @@ const MainMint = ({ accounts, setAccounts }) => {
         </div>
         </div>
         {isConnected ? (
-          <p>Connected</p>
+          <p className="connectText">Connected</p>
         ) : (
           <button className="button" onClick={connectAccount}>
             Connect
@@ -117,7 +117,7 @@ const MainMint = ({ accounts, setAccounts }) => {
             </button>
           </div>
 
-          <button className="button" onClick={handleMint}>
+          <button className="button mintbutton" onClick={handleMint}>
             Mint Now
           </button>
         </div>
