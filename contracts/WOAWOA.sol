@@ -2,7 +2,6 @@
 pragma solidity ^0.8.4;
 
 import "erc721a/contracts/ERC721A.sol";
-
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -42,13 +41,13 @@ contract WOAWOA is Ownable, ERC721A {
 
         require(quantity <= MAX_PER_TXN, "Quantity too high");
 
-        if (totalSupply() <= 1000) {
+        if (quantity <= 1) {
             require(msg.value == 0, "this phase is free");
         }
 
-        if (totalSupply() > 1000) {
+        if (quantity > 1) {
             require(
-                msg.value >= quantity * price,
+                msg.value >= (quantity - 1) * price,
                 "not enough ethers, 0.001 ETH each"
             );
         }

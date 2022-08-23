@@ -8,12 +8,15 @@ import Logo from "./assets/social-media-icons/logo_50x50.png";
 import WOAWOA from "./WOAWOA.json";
 
 const abi = WOAWOA.abi;
+const clientNetworkId = "4";
+const networkId = window.ethereum.networkVersion;
 
-const address = "0xa3D936d6C20c46d34615Bd34224dd86A16752d25";
+const address = "0x1f5e006b9a1aefb5E23469a9B3a3f5730C4fBa8e";
 
 const MainMint = ({ accounts, setAccounts }) => {
-  const [mintAmount, setMintAmount] = useState(1);
+  const [mintAmount, setMintAmount] = useState(20);
   const isConnected = Boolean(accounts[0]);
+  const isMinting = Boolean(false);
   const [totalSupply, setTotalSupply] = useState(0);
 
   useEffect(() => {
@@ -38,14 +41,36 @@ const MainMint = ({ accounts, setAccounts }) => {
     }
   }
 
-  async function handleMint() {
-    if (window.ethereum) {
+  const oneorMore = Boolean(mintAmount <= 1);
+
+  async function handleOneMint() {
+    if (window.ethereum && clientNetworkId == networkId) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(address, WOAWOA.abi, signer);
       try {
-        const response = await contract.publicMint(BigNumber.from(mintAmount));
-        console.log("response:", response);
+        let nftTxn = await contract.Mint(mintAmount, {
+          value: ethers.utils.parseEther("0.000"),
+        });
+        setMessage("Minting");
+        console.log("response:", nftTxn);
+      } catch (err) {
+        console.log("error:", err);
+      }
+    }
+  }
+
+  async function handleMoreMint() {
+    if (window.ethereum && clientNetworkId == networkId) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(address, WOAWOA.abi, signer);
+      try {
+        let nftTxn = await contract.publicMint(mintAmount, {
+          value: ethers.utils.parseEther("0.001" * (mintAmount - 1) + ""),
+        });
+
+        console.log("response:", nftTxn);
       } catch (err) {
         console.log("error:", err);
       }
@@ -68,25 +93,25 @@ const MainMint = ({ accounts, setAccounts }) => {
           <Image src={Logo} boxSize="50px" margin="0 30px"></Image>
           <p4 className="NameTag">The women of America</p4>
         </div>
-        
+
         <div className="navbar-element1">
-        <div className="navbar-element">
-          <Link href="https://">
-            <Image src={Etherscan} boxSize="50px" margin="0 20px"></Image>
-          </Link>
-        </div>
+          <div className="navbar-element">
+            <Link href="https://">
+              <Image src={Etherscan} boxSize="50px" margin="0 20px"></Image>
+            </Link>
+          </div>
 
-        <div className="navbar-element">
-          <Link href="https://">
-            <Image src={Opensea} boxSize="50px" margin="0 20px"></Image>
-          </Link>
-        </div>
+          <div className="navbar-element">
+            <Link href="https://">
+              <Image src={Opensea} boxSize="50px" margin="0 20px"></Image>
+            </Link>
+          </div>
 
-        <div className="navbar-element">
-          <Link href="https://">
-            <Image src={Twitter} boxSize="50px" margin="0 20px"></Image>
-          </Link>
-        </div>
+          <div className="navbar-element">
+            <Link href="https://">
+              <Image src={Twitter} boxSize="50px" margin="0 20px"></Image>
+            </Link>
+          </div>
         </div>
         {isConnected ? (
           <p className="connectText">Connected</p>
@@ -95,40 +120,45 @@ const MainMint = ({ accounts, setAccounts }) => {
             Connect
           </button>
         )}
-        
       </div>
-<div className="mintb">
-      <div className="mint-box">
-        <h1>The women of America</h1>
-        <h2>{totalSupply}/3333</h2>
-        <p>0.001 ETH each(Max 20 per tx)</p>
-        <div>
+      <div className="mintb">
+        <div className="mint-box">
+          <h1>The women of America</h1>
+          <h2>{totalSupply}/3333</h2>
+          <p>0.001 ETH each(Max 20 per tx)</p>
           <div>
-            <button className="button-plusminus" onClick={handleDecrement}>
-              -
-            </button>
-            <input
-              className="mintAmountBox"
-              type="text"
-              value={mintAmount}
-            ></input>
-            <button className="button-plusminus" onClick={handleIncrement}>
-              +
-            </button>
+            <div>
+              <button className="button-plusminus" onClick={handleDecrement}>
+                -
+              </button>
+              <input
+                className="mintAmountBox"
+                type="text"
+                value={mintAmount}
+              ></input>
+              <button className="button-plusminus" onClick={handleIncrement}>
+                +
+              </button>
+            </div>
+
+            {oneorMore ? (
+              <button className="button" onClick={handleOneMint}>
+                Mint now
+              </button>
+            ) : (
+              <button className="button" onClick={handleMoreMint}>
+                Mint now
+              </button>
+            )}
           </div>
-
-          <button className="button mintbutton" onClick={handleMint}>
-            Mint Now
-          </button>
+          <p>
+            The women of America is an homage to one of NFT culture's most
+            iconic works: The Americans NFT(unaffiliated)
+          </p>
         </div>
-        <p>
-          The women of America is an homage to one of NFT culture's most iconic
-          works: The Americans NFT(unaffiliated)
-        </p>
-      </div>
 
-      <div className="woa-gif"></div>
-    </div>
+        <div className="woa-gif"></div>
+      </div>
     </div>
   );
 };
