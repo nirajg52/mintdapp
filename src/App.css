@@ -7,6 +7,16 @@
 }
 * {
   box-sizing: border-box;
+  font-family: 'Press Start 2P'
+}
+
+.mint-box{
+  background-color: #272727;
+  height: 40%;
+  width: 40%;
+  padding: 20px 20px 0 0;
+  float:left;
+  margin-left: 40px;
 }
 
 body{
@@ -23,9 +33,21 @@ body{
   position:fixed;
 }
 
+.mintAmountBox{
+  padding: 18px 18px;
+  text-align: center;
+  
+}
+
+.NameTag{
+  margin-left: 10px;
+}
+
 .logo-name{
   display: flex;
   text-align: center;
+  align-items: center;
+  padding: 20px ;
 }
 
 .navbar{
@@ -35,23 +57,46 @@ body{
   padding: 30px 10%;
 }
 
+.button-plusminus{
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  background-image: url(./assets/social-media-icons/smallbutton.png);
+  border: 0px;
+  text-transform: uppercase;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: Press Start 2P;
+  font-weight: 200;
+}
+
 .button{
-  padding: 15px 60px;
-  background-color: rgb(196, 89, 89);
-  border-color: black;
-  border-radius: 3rem;
+  width:200px;
+  height:50px;
   text-transform: uppercase;
   font-family: Press Start 2P;
   font-weight: 200;
-  border-radius: 20px;
+  border: 0px;
+  background-color: transparent;
+  background-image: url(./assets/social-media-icons/button.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   cursor: pointer;
   transition: all 0.3s ease 0s;
 }
 
-.navnar-element{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.navbar-element{
+  margin-right: -900px
+}
+
+.woa-gif{
+  background-image: url("./assets/social-media-icons/woa.gif");
+  height: 400px;
+  width: 400px;
+  float: right;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .moving-background{

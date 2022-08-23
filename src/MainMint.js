@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ethers, BigNumber } from "ethers";
 import { Link, Image } from "@chakra-ui/react";
-import Twitter from "./assets/social-media-icons/facebook_32x32.png";
-import Opensea from "./assets/social-media-icons/facebook_32x32.png";
-import Etherscan from "./assets/social-media-icons/facebook_32x32.png";
+import Twitter from "./assets/social-media-icons/twitter_32x32.png";
+import Opensea from "./assets/social-media-icons/opensea.png";
+import Etherscan from "./assets/social-media-icons/etherscan.png";
 import Logo from "./assets/social-media-icons/logo_50x50.png";
 import WOAWOA from "./WOAWOA.json";
 
@@ -15,7 +15,6 @@ const MainMint = ({ accounts, setAccounts }) => {
   const [mintAmount, setMintAmount] = useState(1);
   const isConnected = Boolean(accounts[0]);
   const [totalSupply, setTotalSupply] = useState(0);
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     checkTotalSupply();
@@ -67,24 +66,24 @@ const MainMint = ({ accounts, setAccounts }) => {
       <div className="navbar">
         <div className="logo-name">
           <Image src={Logo} boxSize="50px" margin="0 30px"></Image>
-          <p4>The women of America</p4>
+          <p4 className="NameTag">The women of America</p4>
         </div>
 
         <div className="navbar-element">
           <Link href="https://">
-            <Image src={Opensea} boxSize="50px" margin="0 30px"></Image>
+            <Image src={Etherscan} boxSize="50px" margin="0 20px"></Image>
           </Link>
         </div>
 
         <div className="navbar-element">
           <Link href="https://">
-            <Image src={Twitter} boxSize="50px" margin="0 30px"></Image>
+            <Image src={Opensea} boxSize="50px" margin="0 20px"></Image>
           </Link>
         </div>
 
         <div className="navbar-element">
           <Link href="https://">
-            <Image src={Etherscan} boxSize="50px" margin="0 30px"></Image>
+            <Image src={Twitter} boxSize="50px" margin="0 20px"></Image>
           </Link>
         </div>
 
@@ -96,18 +95,37 @@ const MainMint = ({ accounts, setAccounts }) => {
           </button>
         )}
       </div>
-      <h1>WOAWOA</h1>
-      <p>0.001 ETH each(Max 20 per tx)</p>
 
-      <div>
+      <div className="mint-box">
+        <h1>The women of America</h1>
+        <h2>{totalSupply}/3333</h2>
+        <p>0.001 ETH each(Max 20 per tx)</p>
         <div>
-          <button onClick={handleDecrement}>-</button>
-          <input type="text" value={mintAmount}></input>
-          <button onClick={handleIncrement}>+</button>
-        </div>
+          <div>
+            <button className="button-plusminus" onClick={handleDecrement}>
+              -
+            </button>
+            <input
+              className="mintAmountBox"
+              type="text"
+              value={mintAmount}
+            ></input>
+            <button className="button-plusminus" onClick={handleIncrement}>
+              +
+            </button>
+          </div>
 
-        <button onClick={handleMint}>Mint Now</button>
+          <button className="button" onClick={handleMint}>
+            Mint Now
+          </button>
+        </div>
+        <p>
+          The women of America is an homage to one of NFT culture's most iconic
+          works: The Americans NFT(unaffiliated)
+        </p>
       </div>
+
+      <div className="woa-gif"></div>
     </div>
   );
 };
