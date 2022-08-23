@@ -16,7 +16,6 @@ const address = "0x1f5e006b9a1aefb5E23469a9B3a3f5730C4fBa8e";
 const MainMint = ({ accounts, setAccounts }) => {
   const [mintAmount, setMintAmount] = useState(20);
   const isConnected = Boolean(accounts[0]);
-  const isMinting = Boolean(false);
   const [totalSupply, setTotalSupply] = useState(0);
 
   useEffect(() => {
@@ -49,10 +48,9 @@ const MainMint = ({ accounts, setAccounts }) => {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(address, WOAWOA.abi, signer);
       try {
-        let nftTxn = await contract.Mint(mintAmount, {
-          value: ethers.utils.parseEther("0.000"),
+        let nftTxn = await contract.publicMint(mintAmount, {
+          value: ethers.utils.parseEther("0.000" + ""),
         });
-        setMessage("Minting");
         console.log("response:", nftTxn);
       } catch (err) {
         console.log("error:", err);
