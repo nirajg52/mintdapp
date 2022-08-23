@@ -68,7 +68,8 @@ const MainMint = ({ accounts, setAccounts }) => {
           <Image src={Logo} boxSize="50px" margin="0 30px"></Image>
           <p4 className="NameTag">The women of America</p4>
         </div>
-
+        
+        <div className="navbar-element1">
         <div className="navbar-element">
           <Link href="https://">
             <Image src={Etherscan} boxSize="50px" margin="0 20px"></Image>
@@ -86,7 +87,7 @@ const MainMint = ({ accounts, setAccounts }) => {
             <Image src={Twitter} boxSize="50px" margin="0 20px"></Image>
           </Link>
         </div>
-
+        </div>
         {isConnected ? (
           <p>Connected</p>
         ) : (
@@ -94,8 +95,9 @@ const MainMint = ({ accounts, setAccounts }) => {
             Connect
           </button>
         )}
+        
       </div>
-
+<div className="mintb">
       <div className="mint-box">
         <h1>The women of America</h1>
         <h2>{totalSupply}/3333</h2>
@@ -126,6 +128,7 @@ const MainMint = ({ accounts, setAccounts }) => {
       </div>
 
       <div className="woa-gif"></div>
+    </div>
     </div>
   );
 };

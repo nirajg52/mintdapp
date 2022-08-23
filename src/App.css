@@ -7,7 +7,8 @@
 }
 * {
   box-sizing: border-box;
-  font-family: 'Press Start 2P'
+  font-family: 'Press Start 2P';
+
 }
 
 .mint-box{
@@ -48,12 +49,12 @@ body{
   text-align: center;
   align-items: center;
   padding: 20px ;
+  /* margin-right: 20%; */
 }
 
 .navbar{
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 30px 10%;
 }
 
@@ -86,8 +87,18 @@ body{
   transition: all 0.3s ease 0s;
 }
 
+.navbar-element1{
+  float: right;
+  display: flex;
+  margin-left: auto;
+}
 .navbar-element{
-  margin-right: -900px
+  padding: 10px;
+}
+.mintb{
+  display: flex;
+  justify-content: space-around;
+  padding: 10%;
 }
 
 .woa-gif{
