@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { Link, Image } from "@chakra-ui/react";
 import Twitter from "./assets/social-media-icons/twitter_32x32.png";
 import Opensea from "./assets/social-media-icons/opensea.png";
@@ -44,6 +44,7 @@ const MainMint = ({ accounts, setAccounts }) => {
     }
   }
 
+<<<<<<< Updated upstream
   const oneorMore = Boolean(mintAmount <= 1);
 
   async function handleOneMint() {
@@ -80,8 +81,10 @@ const MainMint = ({ accounts, setAccounts }) => {
     }
   }
 
+=======
+>>>>>>> Stashed changes
   async function handleMoreMint() {
-    if (window.ethereum && clientNetworkId == networkId) {
+    if (window.ethereum && clientNetworkId === networkId) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(address, WOAWOA.abi, signer);
@@ -89,6 +92,7 @@ const MainMint = ({ accounts, setAccounts }) => {
         let nftTxn = await contract.publicMint(mintAmount, {
           value: ethers.utils.parseEther("0.001" * (mintAmount - 1) + ""),
         });
+<<<<<<< Updated upstream
         setMessage("Minting... please wait");
 
         console.log("response:", nftTxn);
@@ -105,6 +109,10 @@ const MainMint = ({ accounts, setAccounts }) => {
           "Ethereum object does not exist or connect to the Main network"
         );
         }
+=======
+        console.log("response:", nftTxn);
+        checkTotalSupply();
+>>>>>>> Stashed changes
       } catch (err) {
         console.log("error:", err);
       }
@@ -176,6 +184,7 @@ const MainMint = ({ accounts, setAccounts }) => {
               </button>
             </div>
 
+<<<<<<< Updated upstream
             {oneorMore ? (
               <button className="button" onClick={handleOneMint}>
                 Mint now
@@ -188,6 +197,11 @@ const MainMint = ({ accounts, setAccounts }) => {
               {message && <Alert variant="primary">{message}</Alert>}
           {errorMessage && <Alert variant="warning">{errorMessage}</Alert>}
 
+=======
+            <button className="button" onClick={handleMoreMint}>
+              Mint now
+            </button>
+>>>>>>> Stashed changes
           </div>
           <p>
             The women of America is an homage to one of NFT culture's most
