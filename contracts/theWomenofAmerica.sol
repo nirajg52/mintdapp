@@ -1,20 +1,36 @@
 //SPDX-License-Identifier: MIT
+
+//Title: The women of America
+
+//  █     █░ ▒█████   ▄▄▄
+// ▓█░ █ ░█░▒██▒  ██▒▒████▄
+// ▒█░ █ ░█ ▒██░  ██▒▒██  ▀█▄
+// ░█░ █ ░█ ▒██   ██░░██▄▄▄▄██
+// ░░██▒██▓ ░ ████▓▒░ ▓█   ▓██▒
+// ░ ▓░▒ ▒  ░ ▒░▒░▒░  ▒▒   ▓▒█░
+//   ▒ ░ ░    ░ ▒ ▒░   ▒   ▒▒ ░
+//   ░   ░  ░ ░ ░ ▒    ░   ▒
+//     ░        ░ ░        ░  ░
+
 pragma solidity ^0.8.4;
 
 import "erc721a/contracts/ERC721A.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract WOAWOA is Ownable, ERC721A {
+contract theWomenofAmerica is Ownable, ERC721A {
     uint256 public constant MAX_SUPPLY = 3333;
     uint256 public price = 0.001 ether;
     uint256 public constant MAX_PER_TXN = 20;
-    string public baseURI;
-    bool public paused = true;
+    string public baseURI = "";
+    bool public paused = false;
 
     mapping(address => uint256) public mintsPerAddress;
 
-    constructor() ERC721A("WOAWOA", "woa") {}
+    constructor() ERC721A("The women of America", "WoA") {
+        setBaseURI(baseURI);
+        mintOne();
+    }
 
     /* private function */
 
@@ -24,7 +40,7 @@ contract WOAWOA is Ownable, ERC721A {
 
     /* public function */
 
-    function AddresstoMint(uint256 quantity, address reciever)
+    function airdrop(uint256 quantity, address reciever)
         public
         payable
         onlyOwner
@@ -32,7 +48,7 @@ contract WOAWOA is Ownable, ERC721A {
         _safeMint(reciever, quantity);
     }
 
-    function publicMint(uint256 quantity) external payable {
+    function mint(uint256 quantity) external payable {
         require(!paused, "Contract is paused");
         require(
             totalSupply() + quantity <= MAX_SUPPLY,
@@ -57,6 +73,11 @@ contract WOAWOA is Ownable, ERC721A {
         _safeMint(msg.sender, quantity);
     }
 
+    function mintOne() private onlyOwner {
+        uint256 quantity = 1;
+        _safeMint(msg.sender, quantity);
+    }
+
     /* view function */
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -77,6 +98,10 @@ contract WOAWOA is Ownable, ERC721A {
 
     /* owner function */
 
+    function setPrice(uint256 _price) external onlyOwner {
+        price = _price;
+    }
+
     function setBaseURI(string memory _baseUri) public onlyOwner {
         baseURI = _baseUri;
     }
@@ -89,6 +114,6 @@ contract WOAWOA is Ownable, ERC721A {
         (bool succ, ) = payable(msg.sender).call{value: address(this).balance}(
             ""
         );
-        require(succ, "Owner transfer failed");
+        require(succ, "transfer failed");
     }
 }

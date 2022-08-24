@@ -5,13 +5,13 @@ import Twitter from "./assets/social-media-icons/twitter_32x32.png";
 import Opensea from "./assets/social-media-icons/opensea.png";
 import Etherscan from "./assets/social-media-icons/etherscan.png";
 import Logo from "./assets/social-media-icons/logo_50x50.png";
-import WOAWOA from "./WOAWOA.json";
+import contractWoa from "./WOAWOA.json";
 import { Alert } from "react-bootstrap";
 
-const abi = WOAWOA.abi;
+const abi = contractWoa.abi;
 const clientNetwork = 4;
 
-const address = "0x1f5e006b9a1aefb5E23469a9B3a3f5730C4fBa8e";
+const address = "0x86cBb0c1952272B6BD707FfeFB676c49E61724B6";
 
 const MainMint = () => {
   const [accounts, setAccounts] = useState(null);
@@ -77,7 +77,7 @@ const MainMint = () => {
     }
   };
 
-  const handleMoreMint = async () => {
+  const handleMint = async () => {
     const { ethereum } = window;
     const networkVersion = window.ethereum.networkVersion;
 
@@ -93,7 +93,7 @@ const MainMint = () => {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
 
-      let nftTxn = await nftContract.publicMint(mintAmount, {
+      let nftTxn = await nftContract.mint(mintAmount, {
         value: ethers.utils.parseEther("0.001" * (mintAmount - 1) + ""),
       });
 
@@ -151,7 +151,7 @@ const MainMint = () => {
           </div>
         </div>
         {accounts ? (
-          <button className="button">Connected</button>
+          <p>Connected</p>
         ) : (
           <button className="button" onClick={connectAccount}>
             Connect
@@ -162,7 +162,7 @@ const MainMint = () => {
         <div className="mint-box">
           <h1>The women of America</h1>
           <h2>{totalSupply}/3333</h2>
-          <p>0.001 ETH each(Max 20 per tx)</p>
+          <p>First free then 0.001 ETH each(Max 20 per tx)</p>
           <div>
             <div>
               <button className="button-plusminus" onClick={handleDecrement}>
@@ -178,7 +178,7 @@ const MainMint = () => {
               </button>
             </div>
 
-            <button className="button" onClick={handleMoreMint}>
+            <button className="button" onClick={handleMint}>
               Mint now
             </button>
             <div className="mintText">
@@ -193,8 +193,8 @@ const MainMint = () => {
             </div>
           </div>
           <p>
-            The women of America is an homage to one of NFT culture's most
-            iconic works: The Americans NFT(unaffiliated)
+            The women of America is an homage to two of NFT culture's most
+            iconic works: Cryptopunks and The Americans NFT(unaffiliated)
           </p>
         </div>
 

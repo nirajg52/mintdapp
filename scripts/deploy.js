@@ -1,12 +1,14 @@
 const hre = require("hardhat");
 
 async function main() {
-  const WOAWOA = await hre.ethers.getContractFactory("WOAWOA");
-  const woawoa = await WOAWOA.deploy();
+  const theWomenofAmerica = await hre.ethers.getContractFactory(
+    "theWomenofAmerica"
+  );
+  const deployed = await theWomenofAmerica.deploy();
 
-  await woawoa.deployed();
+  await deployed.deployed();
 
-  console.log(`WOAWOA deployed to ${woawoa.address}`);
+  console.log(`Contract deployed to ${deployed.address}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
