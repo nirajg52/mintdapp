@@ -63,7 +63,7 @@ body{
   margin: 10px;
   width: 50px;
   height: 50px;
-  background-image: url(./assets/social-media-icons/onClickSmallbutton.png);
+  background-image: url(./assets/social-media-icons/smallbutton.png);
   border: 0px;
   text-transform: uppercase;
   background-color: transparent;
@@ -71,6 +71,14 @@ body{
   background-size: cover;
   font-family: Press Start 2P;
   font-weight: 200;
+}
+
+.button-plusminus:hover{
+  background-image: url(./assets/social-media-icons/smallHoverOverBtn.png);
+}
+
+.button-plusminus:active{
+  background-image: url(./assets/social-media-icons/onClickSmallbutton.png);
 }
 
 .button{
@@ -88,9 +96,30 @@ body{
   transition: all 0.3s ease 0s;
 }
 
+.mintText{
+  padding: 1.5rem;
+}
+
+.message{
+  color: rgb(227, 227, 85);
+}
+
+.err{
+  color:rgb(rgb(174, 80, 80), green, blue);
+}
+
+.button:hover{
+  background-image: url(./assets/social-media-icons/hoverOverBtn.png);
+}
+
+.button:active{
+  background-image: url(./assets/social-media-icons/onClickBtn.png);
+}
+
 .msgText{
   margin-top: 1.5rem;
 }
+
 .mintMessage{
   color: yellow;
 }
@@ -153,9 +182,7 @@ body{
   .button{
     height: 37px;
     width: 145px;
-    position: absolute;
-    margin-top: 55%;
-    margin-left: 35%;
+    position: relative;
   }
   .mint-box{
     width: auto;
@@ -181,7 +208,7 @@ body{
     position: relative;
     margin: auto;
   }
-  
+
   *{
     padding: 0px;
   }

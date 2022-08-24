@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "./App.css";
-import NewMint from "./Newmint";
+import MainMint from "./MainMint";
+import NewMint from "./MainMint";
 
 function App() {
-  const [accounts, setAccounts] = useState([]);
   return (
     <div className="overlay">
       <div className="App">
-        <NewMint accounts={accounts} setAccounts={setAccounts} />
+        <MainMint />
       </div>
 
       <div className="moving-background"></div>
