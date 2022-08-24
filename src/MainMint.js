@@ -6,16 +6,20 @@ import Opensea from "./assets/social-media-icons/opensea.png";
 import Etherscan from "./assets/social-media-icons/etherscan.png";
 import Logo from "./assets/social-media-icons/logo_50x50.png";
 import WOAWOA from "./WOAWOA.json";
+import { Alert} from "react-bootstrap";
 
 const abi = WOAWOA.abi;
 const clientNetworkId = "4";
 const networkId = window.ethereum.networkVersion;
+
 
 const address = "0x1f5e006b9a1aefb5E23469a9B3a3f5730C4fBa8e";
 
 const MainMint = ({ accounts, setAccounts }) => {
   const [mintAmount, setMintAmount] = useState(20);
   const isConnected = Boolean(accounts[0]);
+  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [totalSupply, setTotalSupply] = useState(0);
 
   useEffect(() => {
@@ -51,7 +55,25 @@ const MainMint = ({ accounts, setAccounts }) => {
         let nftTxn = await contract.publicMint(mintAmount, {
           value: ethers.utils.parseEther("0.000" + ""),
         });
+        setMessage("Minting... please wait");
         console.log("response:", nftTxn);
+        await nftTxn.wait();
+        if (nftTxn) {
+          setErrorMessage("");
+          setMessage(`Minted, go to Opensea to view it.`);
+          console.log("NFT TRANSACTION ", nftTxn);
+          checkTotalSupply();
+          // setShow(false);
+        }
+       else {
+        setErrorMessage(
+          "Ethereum object does not exist or connect to the Main network"
+        );
+        }
+       
+
+
+
       } catch (err) {
         console.log("error:", err);
       }
@@ -67,8 +89,22 @@ const MainMint = ({ accounts, setAccounts }) => {
         let nftTxn = await contract.publicMint(mintAmount, {
           value: ethers.utils.parseEther("0.001" * (mintAmount - 1) + ""),
         });
+        setMessage("Minting... please wait");
 
         console.log("response:", nftTxn);
+        await nftTxn.wait();
+        if (nftTxn) {
+          setErrorMessage("");
+          setMessage(`Minted, go to Opensea to view it.`);
+          console.log("NFT TRANSACTION ", nftTxn);
+          checkTotalSupply();
+          // setShow(false);
+        }
+       else {
+        setErrorMessage(
+          "Ethereum object does not exist or connect to the Main network"
+        );
+        }
       } catch (err) {
         console.log("error:", err);
       }
@@ -118,6 +154,7 @@ const MainMint = ({ accounts, setAccounts }) => {
             Connect
           </button>
         )}
+        
       </div>
       <div className="mintb">
         <div className="mint-box">
@@ -148,6 +185,9 @@ const MainMint = ({ accounts, setAccounts }) => {
                 Mint now
               </button>
             )}
+              {message && <Alert variant="primary">{message}</Alert>}
+          {errorMessage && <Alert variant="warning">{errorMessage}</Alert>}
+
           </div>
           <p>
             The women of America is an homage to one of NFT culture's most
