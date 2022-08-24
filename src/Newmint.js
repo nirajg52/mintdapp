@@ -9,20 +9,20 @@ import WOAWOA from "./WOAWOA.json";
 import { Alert } from "react-bootstrap";
 
 const abi = WOAWOA.abi;
-const networkId = window.ethereum.networkVersion;
-console.log(networkId);
+const clientNetwork = 4;
 
 const address = "0x1f5e006b9a1aefb5E23469a9B3a3f5730C4fBa8e";
 
-const MainMint = ({ accounts, setAccounts }) => {
+const NewMint = () => {
+  const [accounts, setAccounts] = useState(null);
   const [mintAmount, setMintAmount] = useState(20);
-  const [totalSupply, setTotalSupply] = useState(0);
-  const isConnected = Boolean(accounts[0]);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [totalSupply, setTotalSupply] = useState(0);
 
   useEffect(() => {
     checkTotalSupply();
+    checkWalletIsConnected();
   }, []);
 
   const checkTotalSupply = async () => {
@@ -34,44 +34,85 @@ const MainMint = ({ accounts, setAccounts }) => {
     setTotalSupply(Number(ts));
   };
 
-  async function connectAccount() {
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      setAccounts(accounts);
+  const checkWalletIsConnected = async () => {
+    const { ethereum } = window;
+    if (!ethereum) {
+      alert("Make sure you have Metamask installed and you have Main network");
+      return;
+    } else {
+      console.log("Wallet exists! We're ready to go!");
     }
-  }
 
-  async function handleMoreMint() {
-    if (window.ethereum & (networkId == 4)) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await ethereum.request({ method: "eth_accounts" });
+    console.log("ACCOUNT", accounts);
+    if (accounts.length !== 0) {
+      const account = accounts[0];
+      const provider = new ethers.providers.Web3Provider(ethereum);
+
+      const balance = await provider.getBalance(account);
+      console.log("balance", ethers.utils.formatEther(balance));
+      console.log("Found an authorized account: ", account);
+      setAccounts(accounts);
+    } else {
+      console.log("No authorized account found");
+    }
+  };
+
+  const connectAccount = async () => {
+    console.log("IN CONNECT HANDLER");
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      alert("Please install Metamask!");
+    }
+
+    try {
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log("Found an account! Address: ", accounts[0]);
+      setAccounts(accounts[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleMoreMint = async () => {
+    const { ethereum } = window;
+    const networkVersion = window.ethereum.networkVersion;
+
+    if (ethereum) {
+      if (!networkVersion || networkVersion != clientNetwork) {
+        alert(
+          "Make sure you have Metamask installed and you have Main network"
+        );
+        return;
+      }
+      setErrorMessage("");
+      const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const contract = new ethers.Contract(address, WOAWOA.abi, signer);
+      const nftContract = new ethers.Contract(address, abi, signer);
 
-      const nftTxn = await contract.publicMint(mintAmount, {
+      let nftTxn = await nftContract.publicMint(mintAmount, {
         value: ethers.utils.parseEther("0.001" * (mintAmount - 1) + ""),
       });
-      setMessage("Minting... please wait");
 
-      console.log("response:", nftTxn);
+      setMessage("Minting... please wait");
       await nftTxn.wait();
       if (nftTxn) {
         setErrorMessage("");
         setMessage(`Minted, go to Opensea to view it.`);
         console.log("NFT TRANSACTION ", nftTxn);
         // setShow(false);
-      } else {
-        setErrorMessage(
-          "Ethereum object does not exist or connect to the Main network"
-        );
       }
-
-      console.log("response:", nftTxn);
-      checkTotalSupply();
+    } else {
+      setErrorMessage(
+        "Ethereum object does not exist or connect to the Main network"
+      );
     }
-  }
 
+    checkTotalSupply();
+  };
   const handleIncrement = () => {
     if (mintAmount >= 20) return;
     setMintAmount(mintAmount + 1);
@@ -109,8 +150,8 @@ const MainMint = ({ accounts, setAccounts }) => {
             </Link>
           </div>
         </div>
-        {isConnected ? (
-          <p className="connectText">Connected</p>
+        {checkWalletIsConnected ? (
+          <button className="button">Connected</button>
         ) : (
           <button className="button" onClick={connectAccount}>
             Connect
@@ -137,20 +178,11 @@ const MainMint = ({ accounts, setAccounts }) => {
               </button>
             </div>
 
-            <button className="mintButton button" onClick={handleMoreMint}>
+            <button className="button" onClick={handleMoreMint}>
               Mint now
             </button>
-
-            <div className="msgText">
-              <div className="mintMessage">
-                {message && <Alert variant="primary">{message}</Alert>}
-              </div>
-              <div className="errorMessage">
-                {errorMessage && (
-                  <Alert variant="warning">{errorMessage}</Alert>
-                )}
-              </div>
-            </div>
+            {message && <Alert variant="primary">{message}</Alert>}
+            {errorMessage && <Alert variant="warning">{errorMessage}</Alert>}
           </div>
           <p>
             The women of America is an homage to one of NFT culture's most
@@ -164,4 +196,4 @@ const MainMint = ({ accounts, setAccounts }) => {
   );
 };
 
-export default MainMint;
+export default NewMint;
